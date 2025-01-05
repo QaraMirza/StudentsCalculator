@@ -28,7 +28,7 @@ def load_linear():
     print(results)
 
     # Убедитесь, что директория существует
-    os.makedirs('results/linear', exist_ok=True)
+    results_dir = 'results/linear'
 
     results.to_csv('results/linear/linear.csv', index=False)
 
@@ -49,4 +49,9 @@ def load_linear():
     plt.xlabel('Признаки')
     plt.ylabel('Веса')
     plt.title('Веса линейной регрессии')
+
+    # Сохранение изображения в файл
+    image_file_path = os.path.join(results_dir, 'linear_weights.png')
+    plt.savefig(image_file_path)
+
     plt.show()
