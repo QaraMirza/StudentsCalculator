@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error, mean_absolute_error
-from utils.data.data_spliter import split_data
+from utils.data.data_spliter import split_data, get_column_names
 
 
 def load_linear():
@@ -43,15 +43,33 @@ def load_linear():
     print("Веса модели (коэффициенты):", coefficients)
     print("Смещение модели (intercept):", intercept)
 
+
+    # Создание списка с коэффициентами и соответствующими именами столбцов
+    feature_names = get_column_names()
+    coefficients_list = list(zip(feature_names, coefficients))
+
+    # Сортировка списка по значению коэффициента от большего к меньшему
+    sorted_coefficients_list = sorted(coefficients_list, key=lambda x: x[1], reverse=False)
+
+    print("Список коэффициентов и соответствующих признаков (отсортированный):")
+    for feature, coef in sorted_coefficients_list:
+        print(f"{feature}:\t\t\t\t\t\t {coef}")
+
+    # Разделение отсортированного списка на имена признаков и коэффициенты
+    sorted_feature_names, sorted_coefficients = zip(*sorted_coefficients_list)
+
     # Визуализация весов модели
-    plt.figure(figsize=(10, 5))
-    plt.bar(range(len(coefficients)), coefficients)
-    plt.xlabel('Признаки')
-    plt.ylabel('Веса')
-    plt.title('Веса линейной регрессии')
+    plt.figure(figsize=(10, 8))
+    plt.barh(sorted_feature_names, sorted_coefficients)
+    plt.xlabel('Веса')
+    plt.ylabel('Признаки')
+    plt.title('Веса линейной регрессии (отсортированные)')
+
+    # Настройка пространства вокруг графика
+    plt.subplots_adjust(left=0.3, right=0.95, top=0.9, bottom=0.1)
 
     # Сохранение изображения в файл
-    image_file_path = os.path.join(results_dir, 'linear_weights.png')
+    image_file_path = os.path.join(results_dir, 'linear_weights_sorted.png')
     plt.savefig(image_file_path)
 
     plt.show()
