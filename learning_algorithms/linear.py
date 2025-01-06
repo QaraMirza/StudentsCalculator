@@ -35,14 +35,12 @@ def load_linear():
     with open('results/linear/linear_error.txt', 'w', encoding='utf-8') as file:
         file.write('mae = ' + str(mae))
 
-
     # Вывод весов модели
     coefficients = model.coef_
     intercept = model.intercept_
 
     print("Веса модели (коэффициенты):", coefficients)
     print("Смещение модели (intercept):", intercept)
-
 
     # Создание списка с коэффициентами и соответствующими именами столбцов
     feature_names = get_column_names()
@@ -57,6 +55,16 @@ def load_linear():
 
     # Разделение отсортированного списка на имена признаков и коэффициенты
     sorted_feature_names, sorted_coefficients = zip(*sorted_coefficients_list)
+
+    # Создание DataFrame для экспорта в Excel
+    coefficients_df = pd.DataFrame({
+        'Признак': sorted_feature_names,
+        'Коэффициент': sorted_coefficients
+    })
+
+    # Сохранение DataFrame в файл Excel
+    excel_file_path = os.path.join(results_dir, 'linear_coefficients.xlsx')
+    coefficients_df.to_excel(excel_file_path, index=False)
 
     # Визуализация весов модели
     plt.figure(figsize=(10, 8))
