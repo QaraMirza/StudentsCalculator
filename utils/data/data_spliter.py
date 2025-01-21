@@ -63,5 +63,5 @@ def get_column_names_teachers(file_path):
 
 def get_column_names_students(file_path):
     data = pd.read_excel(file_path)
-    column_names = data.iloc[1:-1, 0]
+    column_names = data.iloc[:-1, 0]
     return column_names

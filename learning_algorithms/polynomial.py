@@ -5,8 +5,8 @@ from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from utils.data.data_spliter import split_data
 
 
-def load_polynomial():
-    X_train, X_test, y_train, y_test = split_data()
+def load_polynomial(file_path, file_type):
+    X_train, X_test, y_train, y_test = split_data(file_path, file_type)
 
     # Преобразование данных в полиномиальные признаки
     poly = PolynomialFeatures(degree=2)
@@ -36,10 +36,12 @@ def load_polynomial():
         'Предсказанные данные': y_pred.flatten(),
     })
 
-    print(results)
-    results.to_csv('results/polynomial/polynomial.csv', index=False)
+    results_dir = 'results/' + file_type + '/polynomial'
 
-    with open('results/polynomial/polynomial_error.txt', 'w', encoding='utf-8') as file:
+    print(results)
+    results.to_csv(results_dir + '/polynomial.csv', index=False)
+
+    with open(results_dir + '/polynomial_error.txt', 'w', encoding='utf-8') as file:
         file.write('mae = ' + str(mae))
 
 

@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Чтение данных из Excel файла
-file_path = '../../resources/students/6-2_28.xlsx'
+file_path = '../../resources/students/all.xlsx'
 data = pd.read_excel(file_path)
 
 # !!! Проблема с индексами. Исправить !!!
@@ -42,7 +42,13 @@ data.iloc[n+45, c:] /= 11 # класс
 data.iloc[n+46:n+65, c:] /= 5
 data.iloc[n+65, c:] = data.iloc[n+65, c:].replace(2,0)
 data.iloc[n+66:n+80, c:] /= 5
+
+# Смартфон должен обладать большим индексом, так что заменяем индексы 1 и 2
+data.iloc[n+80, c:] = data.iloc[n+80, c:].replace(1,3)
+data.iloc[n+80, c:] = data.iloc[n+80, c:].replace(2,1)
+data.iloc[n+80, c:] = data.iloc[n+80, c:].replace(3,2)
 data.iloc[n+80, c:] /= 2
+
 print(data.iloc[n+81, :c])
 data.iloc[n+81, c:] /= 120  # время до школы
 data.iloc[n+82:n+83, c:] /= 2
