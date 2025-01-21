@@ -6,8 +6,8 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error
 from utils.data.data_spliter import split_data, get_column_names
 
 
-def load_linear():
-    X_train, X_test, y_train, y_test = split_data()
+def load_linear(file_path, file_type):
+    X_train, X_test, y_train, y_test = split_data(file_path, file_type)
 
     # Создание и обучение модели
     model = LinearRegression()
@@ -28,11 +28,11 @@ def load_linear():
     print(results)
 
     # Убедитесь, что директория существует
-    results_dir = 'results/linear'
+    results_dir = 'results/' + file_type + '/linear'
 
-    results.to_csv('results/linear/linear.csv', index=False)
+    results.to_csv(results_dir + '/linear.csv', index=False)
 
-    with open('results/linear/linear_error.txt', 'w', encoding='utf-8') as file:
+    with open(results_dir + '/linear_error.txt', 'w', encoding='utf-8') as file:
         file.write('mae = ' + str(mae))
 
     # Вывод весов модели
@@ -43,7 +43,7 @@ def load_linear():
     print("Смещение модели (intercept):", intercept)
 
     # Создание списка с коэффициентами и соответствующими именами столбцов
-    feature_names = get_column_names()
+    feature_names = get_column_names(file_path, file_type)
     coefficients_list = list(zip(feature_names, coefficients))
 
     # Сортировка списка по значению коэффициента от большего к меньшему

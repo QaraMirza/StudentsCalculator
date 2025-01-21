@@ -5,7 +5,7 @@
 import pandas as pd
 
 # Чтение данных из Excel файла
-file_path = '../../resources/ClassTeacher_Answer.xlsx'
+file_path = '../../resources/teachers/ClassTeacher_Answer.xlsx'
 data = pd.read_excel(file_path)
 
 
@@ -26,6 +26,8 @@ ranges = [(0, 4), (7, 11), (13, 16), (18, 23), (25, 56), (58, 59), (61, 69)]  # 
 for start_index, end_index in ranges:
     data.iloc[:, start_index: end_index+1] = data.iloc[:, start_index: end_index+1] / 5
 
+data = data.fillna(0.5)  # Пустые строки заменяем на 0.5 (среднее значение)
+
 # Проверка
 # Подсчет значений больше 1
 count_greater_than_1 = (data <= 1).sum().sum()
@@ -43,7 +45,7 @@ print(f"Количество значений больше 1: {count_greater_tha
 print(f"Количество значений меньше 0: {count_less_than_0}")
 print(f"Всего значений: {dsize}")
 
-normalized_file_path = '../../resources/normalized.xlsx'
+normalized_file_path = '../../resources/teachers/normalized.xlsx'
 data.to_excel(normalized_file_path, index=False)
 
 print(f"Нормализованные данные сохранены в файл: {normalized_file_path}")
